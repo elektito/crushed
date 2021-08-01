@@ -8,7 +8,8 @@ var ring = null
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.is_pressed():
-		queue_free()
+		if not get_parent().watering:
+			queue_free()
 
 
 func _physics_process(delta):

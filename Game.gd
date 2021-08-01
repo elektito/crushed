@@ -5,6 +5,7 @@ var scrw : int = ProjectSettings.get("display/window/size/width")
 var scrh : int = ProjectSettings.get("display/window/size/height")
 
 var dragging := false
+var watering := false
 
 func _input(event):
 	if Input.is_action_just_pressed("exit"):
@@ -27,6 +28,9 @@ func _input(event):
 
 func _on_spawn_timer_timeout():
 	if len($ring.all_crushers) >= 500:
+		get_tree().paused = true
+		$crushed_screen.visible = true
+		$crushed_screen.grab_focus()
 		return
 	
 	var crusher = CircleCrusher.instance()
@@ -42,8 +46,10 @@ func _on_spawn_timer_timeout():
 		3:
 			pos = Vector2(rand_range(0, scrw), scrw + 100)
 	crusher.position = pos
+	crusher.z_index = -100
 	add_child(crusher)
 	$ring.all_crushers.append(crusher)
+	$ring.calculate_crushing_force()
 	
 	crusher.connect("touched_ring", self, "_on_crusher_touched", [crusher])
 	crusher.connect("lost_touch", self, "_on_crusher_lost_touch", [crusher])
@@ -66,7 +72,32 @@ func _on_player_area_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		$player.frame = 3
 		$watering_timer.start()
+		watering = true
 
 
 func _on_watering_timer_timeout():
+	if $plant.frame > 0:
+		$plant.frame -= 1
+	
 	$player.frame = 0
+	watering = false
+	
+	# restart plant life stage timer
+	$plant_timer.start()
+
+
+func _on_plant_timer_timeout():
+	var plant_last_frame := 6
+	$plant.frame += 1
+	if $plant.frame == plant_last_frame:
+		get_tree().paused = true
+		$dead_plant_screen.visible = true
+		$dead_plant_screen.grab_focus()
+
+
+func _on_end_screen_gui_input(event):
+	if Input.is_action_just_pressed("exit"):
+		get_tree().quit()
+	if Input.is_action_just_pressed("restart"):
+		get_tree().paused = false
+		get_tree().reload_current_scene()

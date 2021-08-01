@@ -9,7 +9,6 @@ radius = 8.0
 [node name="CircleCrusher" type="RigidBody2D"]
 input_pickable = true
 contacts_reported = 6
-contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="sprite" type="Sprite" parent="."]
@@ -20,6 +19,7 @@ texture = ExtResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Label" type="Label" parent="."]
+visible = false
 margin_left = -7.0
 margin_top = -1.0
 margin_right = 63.0

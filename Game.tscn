@@ -34,6 +34,7 @@ shape = SubResource( 1 )
 position = Vector2( 156, 93 )
 scale = Vector2( 0.65, 0.65 )
 texture = ExtResource( 3 )
+hframes = 7
 
 [node name="spawn_timer" type="Timer" parent="."]
 wait_time = 0.5
@@ -41,7 +42,63 @@ autostart = true
 
 [node name="watering_timer" type="Timer" parent="."]
 wait_time = 1.5
+one_shot = true
+
+[node name="plant_timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="dead_plant_screen" type="ColorRect" parent="."]
+pause_mode = 2
+visible = false
+margin_right = 320.0
+margin_bottom = 180.0
+rect_clip_content = true
+focus_mode = 2
+color = Color( 0, 0, 0, 0.823529 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="dead_plant_screen"]
+margin_left = 57.0
+margin_top = 65.0
+margin_right = 258.0
+margin_bottom = 113.0
+text = "Your plant is dead.
+But that's life.
+Press [q] to exit or [r] to restart."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="crushed_screen" type="ColorRect" parent="."]
+pause_mode = 2
+visible = false
+margin_right = 320.0
+margin_bottom = 180.0
+rect_clip_content = true
+focus_mode = 2
+color = Color( 0, 0, 0, 0.823529 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="crushed_screen"]
+margin_left = 57.0
+margin_top = 65.0
+margin_right = 258.0
+margin_bottom = 113.0
+text = "You were crushed to death.
+But that's life.
+Press [q] to exit or [r] to restart."
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="input_event" from="player/area" to="." method="_on_player_area_input_event"]
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="watering_timer" to="." method="_on_watering_timer_timeout"]
+[connection signal="timeout" from="plant_timer" to="." method="_on_plant_timer_timeout"]
+[connection signal="gui_input" from="dead_plant_screen" to="." method="_on_end_screen_gui_input"]
+[connection signal="gui_input" from="crushed_screen" to="." method="_on_end_screen_gui_input"]
