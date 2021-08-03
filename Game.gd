@@ -6,6 +6,7 @@ var scrh : int = ProjectSettings.get("display/window/size/height")
 
 var dragging := false
 var watering := false
+var waiting_mouse := preload("res://assets/waiting-mouse.png")
 
 func _input(event):
 	if Input.is_action_just_pressed("exit"):
@@ -73,6 +74,7 @@ func _on_player_area_input_event(viewport, event, shape_idx):
 		$player.frame = 3
 		$watering_audio.play()
 		$watering_timer.start()
+		Input.set_custom_mouse_cursor(waiting_mouse, 0, Vector2(16, 16))
 		watering = true
 
 
@@ -82,6 +84,7 @@ func _on_watering_timer_timeout():
 	
 	$player.frame = 0
 	watering = false
+	Input.set_custom_mouse_cursor(null)
 	
 	# restart plant life stage timer
 	$plant_timer.start()
