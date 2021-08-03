@@ -70,11 +70,16 @@ func _on_crusher_exiting(crusher):
 
 
 func _on_player_area_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed and not watering:
 		$player.frame = 3
 		$watering_audio.play()
 		$watering_timer.start()
 		Input.set_custom_mouse_cursor(waiting_mouse, 0, Vector2(16, 16))
+		$effect_circle.modulate = Color.blue
+		$effect_circle.visible = true
+		$effect_tween.interpolate_property($effect_circle, "scale", Vector2(0.125, 0.125), Vector2(1.0, 1.0), 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+		$effect_tween.interpolate_property($effect_circle, "modulate:a", 1.0, 0.0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+		$effect_tween.start()
 		watering = true
 
 
@@ -105,3 +110,7 @@ func _on_end_screen_gui_input(event):
 	if Input.is_action_just_pressed("restart"):
 		get_tree().paused = false
 		get_tree().reload_current_scene()
+
+
+func _on_effect_tween_tween_all_completed():
+	$effect_circle.visible = false
