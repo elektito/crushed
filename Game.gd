@@ -71,6 +71,7 @@ func _on_crusher_exiting(crusher):
 func _on_player_area_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		$player.frame = 3
+		$watering_audio.play()
 		$watering_timer.start()
 		watering = true
 
