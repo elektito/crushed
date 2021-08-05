@@ -39,10 +39,23 @@ func _ready():
 	$border.modulate = possible_bg_colors[randi() % len(possible_border_colors)]
 	while $border.modulate == $bg.modulate:
 		$border.modulate = possible_bg_colors[randi() % len(possible_border_colors)]
-
+	
+	# the crusher can be any of the different sizes (scale factors), some of
+	# which are more likely than the others.
+	var scale_factors := [
+		0.75,
+		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+		1.5, 1.5,
+		2.0
+	]
+	var scale_factor_idx := randi() % len(scale_factors)
+	var scale_factor : float = scale_factors[scale_factor_idx]
+	$shape.shape.radius *= scale_factor
+	$bg.scale *= scale_factor
+	$border.scale *= scale_factor
 
 func _input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
 		if not get_parent().watering:
 			# disable all collisions, as if this object doesn't exist anymore
 			collision_layer = 0
