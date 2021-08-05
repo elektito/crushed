@@ -98,6 +98,7 @@ func _on_watering_timer_timeout():
 func _on_plant_timer_timeout():
 	var plant_last_frame := 6
 	$plant.frame += 1
+	$crumble_sound.play()
 	if $plant.frame == plant_last_frame:
 		get_tree().paused = true
 		$dead_plant_screen.visible = true
