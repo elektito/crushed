@@ -54,10 +54,6 @@ func _input_event(viewport, event, shape_idx):
 			$pop_sound.play()
 
 
-func _physics_process(delta):
-	$Label.text = str(get_colliding_bodies().size())
-
-
 func _on_CircleCrusher_body_entered(body):
 	if body is StaticBody2D:
 		touching_ring = true
