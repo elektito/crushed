@@ -5,6 +5,8 @@ signal lost_touch()
 
 var touching_ring := false
 var ring = null
+var last_v
+
 var possible_bg_colors = [
 	Color.aqua,
 	Color.blue,
@@ -53,6 +55,7 @@ func _ready():
 	$shape.shape.radius *= scale_factor
 	$bg.scale *= scale_factor
 	$border.scale *= scale_factor
+	mass = scale_factor
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
@@ -68,9 +71,32 @@ func _input_event(viewport, event, shape_idx):
 
 
 func _on_CircleCrusher_body_entered(body):
+	var delta_v = (linear_velocity - last_v).length()
+	var momentum_diff = delta_v * mass
+	
+	# map momentum min to max range to 0.0 to 1.0
+	var min_momentum = 10
+	var max_momentum = 150
+	var volume = (momentum_diff - min_momentum) / (max_momentum - min_momentum)
+	volume = 0.0 if volume < 0.0 else volume
+	volume = 1.0 if volume > 1.0 else volume
+	var hit_sound = $hit_sound.duplicate()
+	hit_sound.volume_db = linear2db(volume)
+	hit_sound.play()
+	hit_sound.connect("finished", self, "_on_hit_sound_finished", [hit_sound])
+	add_child(hit_sound)
+	
 	if body is StaticBody2D:
 		touching_ring = true
 		emit_signal("touched_ring")
+
+
+func _on_hit_sound_finished(hit_sound):
+	hit_sound.queue_free()
+
+
+func _physics_process(delta):
+	last_v = linear_velocity
 
 
 func _on_CircleCrusher_body_exited(body):
