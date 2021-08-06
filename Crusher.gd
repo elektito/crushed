@@ -52,10 +52,21 @@ func _ready():
 	]
 	var scale_factor_idx := randi() % len(scale_factors)
 	var scale_factor : float = scale_factors[scale_factor_idx]
-	$shape.shape.radius *= scale_factor
-	$bg.scale *= scale_factor
-	$border.scale *= scale_factor
+	set_scale_factor(scale_factor)
 	mass = scale_factor
+
+
+func set_scale_factor(scale_factor):
+	if get_filename() == 'res://CircleCrusher.tscn':
+		$shape.shape.radius *= scale_factor
+		$bg.scale *= scale_factor
+		$border.scale *= scale_factor
+	elif get_filename() == 'res://TriangleCrusher.tscn':
+		for i in range(len($shape.polygon)):
+			$shape.polygon[i] *= Vector2(scale_factor, scale_factor)
+		$bg.scale *= Vector2(scale_factor, scale_factor)
+		$border.scale *= Vector2(scale_factor, scale_factor)
+
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
@@ -63,7 +74,9 @@ func _input_event(viewport, event, shape_idx):
 			# disable all collisions, as if this object doesn't exist anymore
 			collision_layer = 0
 			collision_mask = 0
-			$pop_tween.interpolate_property(self, "scale", Vector2(1, 1), Vector2(0.01, 0.01), 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+			#$pop_tween.interpolate_property(self, "scale", Vector2(1, 1), Vector2(0.01, 0.01), 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+			$pop_tween.interpolate_property($bg, "scale", null, Vector2(0.01, 0.01), 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+			$pop_tween.interpolate_property($border, "scale", null, Vector2(0.01, 0.01), 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
 			$pop_tween.interpolate_property($border, "modulate:a", 1.0, 0.2, 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			$pop_tween.interpolate_property($bg, "modulate:a", 1.0, 0.2, 0.25, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			$pop_tween.start()

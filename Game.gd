@@ -1,6 +1,7 @@
 extends Node2D
 
 var CircleCrusher := preload("res://CircleCrusher.tscn")
+var TriangleCrusher := preload("res://TriangleCrusher.tscn")
 var scrw : int = ProjectSettings.get("display/window/size/width")
 var scrh : int = ProjectSettings.get("display/window/size/height")
 
@@ -34,7 +35,13 @@ func _on_spawn_timer_timeout():
 		$crushed_screen.grab_focus()
 		return
 	
-	var crusher = CircleCrusher.instance()
+	var crusher_types = [
+		CircleCrusher, CircleCrusher, CircleCrusher, CircleCrusher, CircleCrusher,
+		TriangleCrusher
+	]
+	var crusher_type = crusher_types[randi() % len(crusher_types)]
+	
+	var crusher = crusher_type.instance()
 	var pos : Vector2
 	var region := randi() % 4
 	match region:
