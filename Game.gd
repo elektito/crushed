@@ -108,6 +108,13 @@ func _on_plant_timer_timeout():
 	var plant_last_frame := 6
 	$plant.frame += 1
 	$crumble_sound.play()
+	
+	$effect_circle.visible = true
+	$effect_circle.modulate = Color.darkgreen
+	$effect_tween.interpolate_property($effect_circle, "scale", Vector2(1.0, 1.0), Vector2(0.125, 0.125), 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	$effect_tween.interpolate_property($effect_circle, "modulate:a", 1.0, 0.0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	$effect_tween.start()
+	
 	if $plant.frame == plant_last_frame:
 		get_tree().paused = true
 		$dead_plant_screen.visible = true
