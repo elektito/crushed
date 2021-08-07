@@ -23,7 +23,7 @@ scale = Vector2( 1.66667, 1.66667 )
 current = true
 
 [node name="player" type="Sprite" parent="."]
-position = Vector2( 150, 91 )
+position = Vector2( 158, 91 )
 scale = Vector2( 0.65, 0.65 )
 texture = ExtResource( 2 )
 hframes = 4
@@ -34,7 +34,7 @@ hframes = 4
 shape = SubResource( 1 )
 
 [node name="plant" type="Sprite" parent="."]
-position = Vector2( 156, 93 )
+position = Vector2( 164, 93 )
 scale = Vector2( 0.65, 0.65 )
 texture = ExtResource( 3 )
 hframes = 7
@@ -104,7 +104,7 @@ stream = ExtResource( 5 )
 
 [node name="effect_circle" type="Sprite" parent="."]
 visible = false
-position = Vector2( 156, 91 )
+position = Vector2( 164, 91 )
 scale = Vector2( 0.125, 0.125 )
 texture = ExtResource( 6 )
 
