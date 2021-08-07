@@ -57,11 +57,12 @@ func _ready():
 
 
 func set_scale_factor(scale_factor):
-	if get_filename() == 'res://CircleCrusher.tscn':
+	var fn = get_filename()
+	if fn == 'res://CircleCrusher.tscn':
 		$shape.shape.radius *= scale_factor
 		$bg.scale *= scale_factor
 		$border.scale *= scale_factor
-	elif get_filename() == 'res://TriangleCrusher.tscn':
+	elif fn == 'res://TriangleCrusher.tscn' or fn == 'res://DiamondCrusher.tscn':
 		for i in range(len($shape.polygon)):
 			$shape.polygon[i] *= Vector2(scale_factor, scale_factor)
 		$bg.scale *= Vector2(scale_factor, scale_factor)
