@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Intro.gd" type="Script" id=1]
+[ext_resource path="res://TextFont.tres" type="DynamicFont" id=2]
 
 [node name="Intro" type="Node2D"]
 script = ExtResource( 1 )
@@ -10,6 +11,7 @@ margin_left = 11.0
 margin_top = 11.0
 margin_right = 312.0
 margin_bottom = 161.0
+custom_fonts/font = ExtResource( 2 )
 text = "Keep your plant alive, while keeping life's
 crushing forces at bay.
 
