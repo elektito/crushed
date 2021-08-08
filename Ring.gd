@@ -46,6 +46,7 @@ func burst():
 	already_burst = true
 	var burst_time := 0.016*15
 	$scale_tween.stop_all()
+	$burst_sound.play()
 	$scale_tween.interpolate_property(self, 'scale', null, original_scale * 2, burst_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	$scale_tween.interpolate_property($sprite, 'modulate:a', 1.0, 0.0, burst_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	$scale_tween.start()
