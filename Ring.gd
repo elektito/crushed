@@ -1,5 +1,7 @@
 extends StaticBody2D
 
+signal imploded()
+
 var contacts := []
 var crushing_force := 0.0
 var all_crushers := []
@@ -54,4 +56,9 @@ func burst():
 	for node in get_tree().get_nodes_in_group("crushers"):
 		node.collision_layer = 0
 		node.collision_mask = 0
-		node.linear_velocity = (get_parent().get_node("player").global_position - node.global_position) * 1
+		#node.linear_velocity = (get_parent().get_node("player").global_position - node.global_position) * 1
+		node.mode = RigidBody2D.MODE_KINEMATIC
+		$scale_tween.interpolate_property(node, "position", null, position, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN)
+	$scale_tween.start()
+	yield($scale_tween, "tween_all_completed")
+	emit_signal("imploded")
