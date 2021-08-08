@@ -99,6 +99,7 @@ func _on_player_area_input_event(viewport, event, shape_idx):
 func _on_watering_timer_timeout():
 	if $plant.frame > 0:
 		$plant.frame -= 1
+		update_plant_timer()
 	
 	$player.frame = 0
 	watering = false
@@ -111,6 +112,7 @@ func _on_watering_timer_timeout():
 func _on_plant_timer_timeout():
 	var plant_last_frame := 6
 	$plant.frame += 1
+	update_plant_timer()
 	$crumble_sound.play()
 	
 	$effect_circle.visible = true
@@ -135,3 +137,8 @@ func _on_end_screen_gui_input(event):
 
 func _on_effect_tween_tween_all_completed():
 	$effect_circle.visible = false
+
+
+func update_plant_timer():
+	# the worse the plant, the higher the spawn rate
+	$spawn_timer.wait_time = 0.5 - 0.05 * $plant.frame
