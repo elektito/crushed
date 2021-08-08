@@ -80,6 +80,11 @@ func _on_crusher_exiting(crusher):
 
 func _on_player_area_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed and not watering:
+		watering = true
+		$player.frame = 1
+		yield(get_tree().create_timer(0.016 * 3), "timeout")
+		$player.frame = 2
+		yield(get_tree().create_timer(0.016 * 3), "timeout")
 		$player.frame = 3
 		$watering_audio.play()
 		$watering_timer.start()
@@ -89,7 +94,6 @@ func _on_player_area_input_event(viewport, event, shape_idx):
 		$effect_tween.interpolate_property($effect_circle, "scale", Vector2(0.125, 0.125), Vector2(1.0, 1.0), 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
 		$effect_tween.interpolate_property($effect_circle, "modulate:a", 1.0, 0.0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
 		$effect_tween.start()
-		watering = true
 
 
 func _on_watering_timer_timeout():
