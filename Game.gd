@@ -33,6 +33,8 @@ func _input(event):
 
 func _on_spawn_timer_timeout():
 	if len($ring.all_crushers) >= 500:
+		$ring.burst()
+		yield(get_tree().create_timer(1.3), "timeout")
 		get_tree().paused = true
 		$crushed_screen.visible = true
 		$crushed_screen.grab_focus()

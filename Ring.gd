@@ -35,3 +35,23 @@ func calculate_crushing_force():
 	$scale_tween.interpolate_property(self, 'scale', null, cf, 0.015, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 	$scale_tween.start()
 	yield($scale_tween, "tween_completed")
+
+
+var already_burst = false
+func burst():
+	if already_burst:
+		return
+	already_burst = true
+	var burst_time := 0.016*15
+	$scale_tween.stop_all()
+	$scale_tween.interpolate_property(self, 'scale', null, original_scale * 2, burst_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$scale_tween.interpolate_property($sprite, 'modulate:a', 1.0, 0.0, burst_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$scale_tween.start()
+	yield($scale_tween, "tween_all_completed")
+	
+	get_parent().get_node("player").z_index = -100
+	get_parent().get_node("plant").z_index = -100
+	for node in get_tree().get_nodes_in_group("crushers"):
+		node.collision_layer = 0
+		node.collision_mask = 0
+		node.linear_velocity = (get_parent().get_node("player").global_position - node.global_position) * 1

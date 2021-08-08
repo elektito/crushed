@@ -10,7 +10,9 @@
 resource_local_to_scene = true
 radius = 8.0
 
-[node name="CircleCrusher" type="RigidBody2D"]
+[node name="CircleCrusher" type="RigidBody2D" groups=[
+"crushers",
+]]
 input_pickable = true
 contacts_reported = 1
 contact_monitor = true
