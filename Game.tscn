@@ -117,6 +117,8 @@ texture = ExtResource( 6 )
 stream = ExtResource( 7 )
 
 [connection signal="input_event" from="player/area" to="." method="_on_player_area_input_event"]
+[connection signal="mouse_entered" from="player/area" to="." method="_on_area_mouse_entered"]
+[connection signal="mouse_exited" from="player/area" to="." method="_on_area_mouse_exited"]
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="watering_timer" to="." method="_on_watering_timer_timeout"]
 [connection signal="timeout" from="plant_timer" to="." method="_on_plant_timer_timeout"]

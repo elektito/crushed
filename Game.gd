@@ -8,7 +8,9 @@ var scrh : int = ProjectSettings.get("display/window/size/height")
 
 var dragging := false
 var watering := false
+var mouse_inside_watering_area = false
 var waiting_mouse := preload("res://assets/waiting-mouse.png")
+var active_mouse := preload("res://assets/active-mouse.png")
 
 func _input(event):
 	if Input.is_action_just_pressed("exit"):
@@ -103,7 +105,10 @@ func _on_watering_timer_timeout():
 	
 	$player.frame = 0
 	watering = false
-	Input.set_custom_mouse_cursor(null)
+	if mouse_inside_watering_area:
+		Input.set_custom_mouse_cursor(active_mouse, 0, Vector2(15, 13))
+	else:
+		Input.set_custom_mouse_cursor(null)
 	
 	# restart plant life stage timer
 	$plant_timer.start()
@@ -142,3 +147,15 @@ func _on_effect_tween_tween_all_completed():
 func update_plant_timer():
 	# the worse the plant, the higher the spawn rate
 	$spawn_timer.wait_time = 0.5 - 0.05 * $plant.frame
+
+
+func _on_area_mouse_entered():
+	mouse_inside_watering_area = true
+	if not watering:
+		Input.set_custom_mouse_cursor(active_mouse, 0, Vector2(15, 13))
+
+
+func _on_area_mouse_exited():
+	mouse_inside_watering_area = false
+	if not watering:
+		Input.set_custom_mouse_cursor(null)
