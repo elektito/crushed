@@ -54,12 +54,18 @@ func burst():
 	
 	get_parent().get_node("player").z_index = -100
 	get_parent().get_node("plant").z_index = -100
+	var implode_time := 1.5
+	$scale_tween.interpolate_property(get_parent().get_node("player"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
+	$scale_tween.interpolate_property(get_parent().get_node("plant"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
 	for node in get_tree().get_nodes_in_group("crushers"):
 		node.collision_layer = 0
 		node.collision_mask = 0
 		#node.linear_velocity = (get_parent().get_node("player").global_position - node.global_position) * 1
 		node.mode = RigidBody2D.MODE_KINEMATIC
-		$scale_tween.interpolate_property(node, "position", null, position, 1.5, Tween.TRANS_EXPO, Tween.EASE_IN)
+		$scale_tween.interpolate_property(node, "position", null, position, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
+		$scale_tween.interpolate_property(node.get_node("bg"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
+		$scale_tween.interpolate_property(node.get_node("border"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
 	$scale_tween.start()
 	yield($scale_tween, "tween_all_completed")
+	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("imploded")
