@@ -69,3 +69,14 @@ func burst():
 	yield($scale_tween, "tween_all_completed")
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("imploded")
+
+
+func _on_doom_timer_timeout():
+	if len(all_crushers) < 300:
+		return
+	
+	for i in range(4):
+		$sprite.scale = Vector2(0.985, 0.985)
+		yield(get_tree().create_timer(0.035), "timeout")
+		$sprite.scale = Vector2(1.0, 1.0)
+		yield(get_tree().create_timer(0.035), "timeout")

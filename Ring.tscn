@@ -45,3 +45,9 @@ __meta__ = {
 
 [node name="burst_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="doom_timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="doom_timer" to="." method="_on_doom_timer_timeout"]
