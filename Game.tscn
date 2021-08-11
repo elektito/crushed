@@ -41,7 +41,7 @@ texture = ExtResource( 3 )
 hframes = 7
 
 [node name="spawn_timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.4
 autostart = true
 
 [node name="watering_timer" type="Timer" parent="."]

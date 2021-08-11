@@ -1,5 +1,7 @@
 extends Node2D
 
+const BURST_LIMIT := 350
+
 var CircleCrusher := preload("res://CircleCrusher.tscn")
 var TriangleCrusher := preload("res://TriangleCrusher.tscn")
 var DiamondCrusher := preload("res://DiamondCrusher.tscn")
@@ -7,10 +9,28 @@ var scrw : int = ProjectSettings.get("display/window/size/width")
 var scrh : int = ProjectSettings.get("display/window/size/height")
 
 var dragging := false
-var watering := false
+var watering := false setget set_watering
 var mouse_inside_watering_area = false
 var waiting_mouse := preload("res://assets/waiting-mouse.png")
 var active_mouse := preload("res://assets/active-mouse.png")
+
+func _ready():
+	for i in range(0):
+		_on_spawn_timer_timeout()
+
+
+func set_watering(value : bool):
+	watering = value
+	adjust_spawn_rate()
+
+
+func adjust_spawn_rate():
+	# the worse the plant, the higher the spawn rate
+	$spawn_timer.wait_time = 0.4 - 0.05 * $plant.frame
+	
+	if watering:
+		$spawn_timer.wait_time /= 2.0
+
 
 func _input(event):
 	if Input.is_action_just_pressed("exit"):
@@ -32,7 +52,7 @@ func _input(event):
 		$ring/Camera2D.position -= event.relative
 
 func _on_spawn_timer_timeout():
-	if len($ring.all_crushers) >= 500:
+	if len($ring.all_crushers) >= BURST_LIMIT:
 		$ring.burst()
 		yield($ring, "imploded")
 		get_tree().paused = true
@@ -84,7 +104,7 @@ func _on_crusher_exiting(crusher):
 
 func _on_player_area_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed and not watering:
-		watering = true
+		set_watering(true)
 		$player.frame = 1
 		yield(get_tree().create_timer(0.016 * 3), "timeout")
 		$player.frame = 2
@@ -103,10 +123,9 @@ func _on_player_area_input_event(viewport, event, shape_idx):
 func _on_watering_timer_timeout():
 	if $plant.frame > 0:
 		$plant.frame -= 1
-		update_plant_timer()
 	
 	$player.frame = 0
-	watering = false
+	set_watering(false)
 	if mouse_inside_watering_area:
 		Input.set_custom_mouse_cursor(active_mouse, 0, Vector2(15, 13))
 	else:
@@ -119,7 +138,7 @@ func _on_watering_timer_timeout():
 func _on_plant_timer_timeout():
 	var plant_last_frame := 6
 	$plant.frame += 1
-	update_plant_timer()
+	adjust_spawn_rate()
 	$crumble_sound.play()
 	
 	$effect_circle.visible = true
@@ -144,11 +163,6 @@ func _on_end_screen_gui_input(event):
 
 func _on_effect_tween_tween_all_completed():
 	$effect_circle.visible = false
-
-
-func update_plant_timer():
-	# the worse the plant, the higher the spawn rate
-	$spawn_timer.wait_time = 0.5 - 0.05 * $plant.frame
 
 
 func _on_area_mouse_entered():

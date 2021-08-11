@@ -5,7 +5,7 @@ signal lost_touch()
 
 var touching_ring := false
 var ring = null
-var last_v
+var last_v = Vector2.ZERO
 
 var possible_bg_colors = [
 	Color.aqua,

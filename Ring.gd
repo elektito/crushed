@@ -76,7 +76,7 @@ func _on_doom_timer_timeout():
 	if already_burst:
 		return
 	
-	var r : float = clamp(len(all_crushers) / 300.0, 0.0, 1.0)
+	var r : float = clamp(len(all_crushers) / 280.0, 0.0, 1.0)
 	$sprite.modulate = Color(r, 1 - r, 1 - r)
 	
 	if len(all_crushers) < 300:
