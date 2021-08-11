@@ -45,6 +45,7 @@ func burst():
 		return
 	already_burst = true
 	var burst_time := 0.016*15
+	$doom_timer.stop()
 	$scale_tween.stop_all()
 	$burst_sound.play()
 	$scale_tween.interpolate_property(self, 'scale', null, original_scale * 2, burst_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
@@ -72,6 +73,12 @@ func burst():
 
 
 func _on_doom_timer_timeout():
+	if already_burst:
+		return
+	
+	var r : float = clamp(len(all_crushers) / 300.0, 0.0, 1.0)
+	$sprite.modulate = Color(r, 1 - r, 1 - r)
+	
 	if len(all_crushers) < 300:
 		return
 	
