@@ -3,5 +3,6 @@ pop.wav - cc0 - https://freesound.org/people/fleurescence/sounds/573153/ - unedi
 crumble.wav - cc0 - https://freesound.org/people/ra_gun/sounds/77470/ - edited
 hit.wav - cc0 - https://freesound.org/people/OwlStorm/sounds/209018/ - edited
 burst.wav - cc0 - https://freesound.org/people/ReadeOnly/sounds/186927/ - unedited
+implode.wav - cc0 - https://freesound.org/people/Animadierer/sounds/575356/ - edited (reversed-cut-change speed)
 
 ModernDOS9x14.ttf - cc0 - https://www.dafont.com/modern-dos.font

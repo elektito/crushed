@@ -56,6 +56,7 @@ func burst():
 	get_parent().get_node("player").z_index = -100
 	get_parent().get_node("plant").z_index = -100
 	var implode_time := 1.5
+	$implode_sound.play()
 	$scale_tween.interpolate_property(get_parent().get_node("player"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
 	$scale_tween.interpolate_property(get_parent().get_node("plant"), "modulate:a", null, 0.0, implode_time, Tween.TRANS_EXPO, Tween.EASE_IN)
 	for node in get_tree().get_nodes_in_group("crushers"):
