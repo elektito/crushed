@@ -6,3 +6,9 @@ burst.wav - cc0 - https://freesound.org/people/ReadeOnly/sounds/186927/ - unedit
 implode.wav - cc0 - https://freesound.org/people/Animadierer/sounds/575356/ - edited (reversed-cut-change speed)
 
 ModernDOS9x14.ttf - cc0 - https://www.dafont.com/modern-dos.font
+
+Music:
+
+Doomsday Clock  by Rafael Krux
+Link: https://filmmusic.io/song/5402-doomsday-clock-
+License: https://filmmusic.io/standard-license
