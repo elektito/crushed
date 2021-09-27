@@ -32,6 +32,15 @@ func adjust_spawn_rate():
 		$spawn_timer.wait_time /= 2.0
 
 
+func fade_music_out(fade_time=1.0):
+	$music_fade_tween.interpolate_method(self, "set_music_volume", db2linear($music.volume_db), 0.0, fade_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$music_fade_tween.start()
+
+
+func set_music_volume(volume):
+	$music.volume_db = linear2db(volume)
+
+
 func _input(event):
 	if Input.is_action_just_pressed("exit"):
 		get_tree().quit()
@@ -54,6 +63,7 @@ func _input(event):
 func _on_spawn_timer_timeout():
 	if len($ring.all_crushers) >= BURST_LIMIT:
 		$ring.burst()
+		fade_music_out()
 		yield($ring, "imploded")
 		get_tree().paused = true
 		$crushed_screen.visible = true
@@ -148,6 +158,8 @@ func _on_plant_timer_timeout():
 	$effect_tween.start()
 	
 	if $plant.frame == plant_last_frame:
+		fade_music_out(0.5)
+		yield($music_fade_tween, "tween_all_completed")
 		get_tree().paused = true
 		$dead_plant_screen.visible = true
 		$dead_plant_screen.grab_focus()
