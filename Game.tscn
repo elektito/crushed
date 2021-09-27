@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/circle.png" type="Texture" id=6]
 [ext_resource path="res://assets/sound/crumble.wav" type="AudioStream" id=7]
 [ext_resource path="res://TextFont.tres" type="DynamicFont" id=8]
-[ext_resource path="res://assets/sound/doomsday-clock--by-rafael-krux-from-filmmusic-io.mp3" type="AudioStream" id=9]
+[ext_resource path="res://assets/sound/doomsday-clock--by-rafael-krux-from-filmmusic-io.ogg" type="AudioStream" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 14.0
